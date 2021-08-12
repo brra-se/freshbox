@@ -1,3 +1,4 @@
+#!/bin/bash
 
 apt install -y  --no-install-recommends \
 apt-transport-https \
@@ -18,3 +19,7 @@ adduser \
 gnupg \
 hostname
 
+curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | apt-key add -
+curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | tee /etc/apt/sources.list.d/tailscale.list
+apt update
+apt install tailscale
