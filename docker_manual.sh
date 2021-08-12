@@ -8,6 +8,8 @@ elif [ "$DISTRO" == "debian" ]; then
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 fi
 
+
+
 # Docker repo to source list
 echo "Adding docker to sources list"
 if [ "$DISTRO" == "ubuntu" ]; then
@@ -30,8 +32,27 @@ if [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ]; then
     sudo -E apt-get install -y docker-ce docker-ce-cli containerd.io cgroupfs-mount
 fi
 
+cat > /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
 # Docker group
 sudo usermod -aG docker brra
+mkdir -p /etc/systemd/system/docker.service.d
+# Restart docker.
+systemctl daemon-reload
+systemctl restart docker
+# Enable packet forwarding
+# configure sysctl
+modprobe overlay
+modprobe br_netfilter
 
 # Docker Compose
 echo "Installing Docker Compose"
