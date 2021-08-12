@@ -40,7 +40,7 @@ net.ipv4.tcp_timestamps=0
 net.ipv4.tcp_max_syn_backlog=8096
 net.bridge.bridge-nf-call-iptables=1
 net.bridge.bridge-nf-call-ip6tables=1
-net.bridge.bridge-nf-call-arptables',value: '1
+net.bridge.bridge-nf-call-arptables=1
 net.ipv4.tcp_rmem=4096 12582912 16777216
 vm.swappiness=0
 kernel.sysrq=1
@@ -79,5 +79,34 @@ EOF
 
 sudo update-grub
 
+timedatectl set-timezone Europe/Stockholm
+echo 'Europe/Stockholm' /etc/timezone
+ln -fs /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+dpkg-reconfigure -f noninteractive tzdata
 
+cat>/etc/ssh/sshd_config<<__EOF
+Port 22
+Protocol 2
+AuthorizedKeysFile  /etc/ssh/authorized_keys
+PasswordAuthentication yes
+ChallengeResponseAuthentication no
+UsePAM no
+X11Forwarding yes
+PermitRootLogin yes
+PermitEmptyPasswords yes
+Subsystem sftp /usr/lib/openssh/sftp-server
+KeepAlive yes
+PrintMotd yes
+__EOF
 
+cat>/etc/ssh/authorized_keys<<__EOF
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDk/5Gyb1qWnJ8txHc0ee+B8oX9Igj08l6VCL3h1q4PU5QZL8vfcckJ0Yc3eeGAQTQP0xmrjb6rNmCazZzHHhFIqQGgHQgT/p5+YNgX6E6H9G7+wlpEAVJhVavLN9yznORBl87N7ECseUVjtr9QdApKNTzwqCaJ5DxH1uzvQEbkeINpEYWGF6PJwBze3iwA4ssJ0By1t+V0+mD0jGvgLxxWsg5ou32ZIAXYrEA4ObXOSNpVkCldmcw0ziLrjKWZUQRAcgoieqfPEKCpeY+/8EmHK3MfY0a0QkmOfd7hIszTWHJmESOZrsqRJqWMhjmL5DXXoCWVBeNFgiwEPU9uVIhuKE2rlmzh8jd+ZAkHLGFO3JtqfrBYR7jRHXBgRxKYUMDefFjpOxeEV4GsDrFscGmCT/dIegiqfSsFyk79gOPJmOC9IaBpBtODL5lDyDFNa3Gr1iUESCTikEYNlxzRUH2Mengjwcvmvi95RKsnfeSA6+prKYXKfKfmvH+Yq7p2Ru8= a1@Macen-Proen.local
+__EOF
+chmod 644 /etc/ssh/authorized_keys
+systemctl daemon-reload
+systemctl restart ssh
+
+apt install cifs-utils
+mkdir /mnt/stuff /mnt/mov_tv
+echo "//192.168.1.10/stuff  /mnt/stuff  cifs  guest,rw,relatime,vers=3.0,cache=strict,uid=1000,noforceuid,gid=1000,noforcegid,addr=192.168.1.10,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1 0 0"  >> /etc/fstab
+echo "//192.168.1.10/movie_tv  /mnt/mov_tv  cifs  guest,rw,relatime,vers=3.0,cache=strict,uid=1000,noforceuid,gid=1000,noforcegid,addr=192.168.1.10,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1  0 0"  >> /etc/fstab
