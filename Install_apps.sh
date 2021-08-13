@@ -17,6 +17,8 @@ locales \
 autofs \
 lsb-release  \
 adduser \
+tmux \
+tmux-plugin-manager \
 gnupg \
 hostname
 
