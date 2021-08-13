@@ -99,9 +99,8 @@ KeepAlive yes
 PrintMotd yes
 __EOF
 
-cat>/etc/ssh/authorized_keys<<__EOF
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDk/5Gyb1qWnJ8txHc0ee+B8oX9Igj08l6VCL3h1q4PU5QZL8vfcckJ0Yc3eeGAQTQP0xmrjb6rNmCazZzHHhFIqQGgHQgT/p5+YNgX6E6H9G7+wlpEAVJhVavLN9yznORBl87N7ECseUVjtr9QdApKNTzwqCaJ5DxH1uzvQEbkeINpEYWGF6PJwBze3iwA4ssJ0By1t+V0+mD0jGvgLxxWsg5ou32ZIAXYrEA4ObXOSNpVkCldmcw0ziLrjKWZUQRAcgoieqfPEKCpeY+/8EmHK3MfY0a0QkmOfd7hIszTWHJmESOZrsqRJqWMhjmL5DXXoCWVBeNFgiwEPU9uVIhuKE2rlmzh8jd+ZAkHLGFO3JtqfrBYR7jRHXBgRxKYUMDefFjpOxeEV4GsDrFscGmCT/dIegiqfSsFyk79gOPJmOC9IaBpBtODL5lDyDFNa3Gr1iUESCTikEYNlxzRUH2Mengjwcvmvi95RKsnfeSA6+prKYXKfKfmvH+Yq7p2Ru8= a1@Macen-Proen.local
-__EOF
+curl -O https://github.com/brra.keys
+mv brra.keys /etc/ssh/authorized_keys
 chmod 644 /etc/ssh/authorized_keys
 systemctl daemon-reload
 systemctl restart ssh
