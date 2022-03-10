@@ -14,6 +14,7 @@ cp .vimrc /home/brra/.vimrc
 chown brra:brra -R /home/brra/
 
 sh system_settings.se 
-sh Install_apps.sh
+#sh Install_apps.sh
+sh Install_apps_prox.sh
 sh docker_manual.sh
-sh get_tailscale.sh
+#sh get_tailscale.sh
