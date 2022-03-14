@@ -13,18 +13,18 @@ echo "## Copyright (C) 2020 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 Acquire::Languages none;
 Acquire::IndexTargets::deb::Contents-deb::DefaultEnabled false;" > /etc/apt/apt.conf.d/99translations
 
-echo "## Use with care.
-## Comment in only if you know what you are doing.
-## See also:
-## https://www.whonix.org/wiki/Dev/Permissions
-%sudo   ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/user-passwordless
+#echo "## Use with care.
+### Comment in only if you know what you are doing.
+### See also:
+### https://www.whonix.org/wiki/Dev/Permissions
+#%sudo   ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/user-passwordless
 
 
-bash -c "cat >> /etc/default/grub" << EOF
+#ash -c "cat >> /etc/default/grub" << EOF
 # disable ipv6
-GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1"
-GRUB_CMDLINE_LINUX="ipv6.disable=1"
-EOF
+#GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1"
+#GRUB_CMDLINE_LINUX="ipv6.disable=1"
+#EOF
 
 update-grub
 
@@ -54,7 +54,7 @@ chmod 644 /etc/ssh/authorized_keys
 systemctl daemon-reload
 systemctl restart ssh
 
-apt install cifs-utils
-mkdir /mnt/stuff /mnt/mov_tv
-echo "//192.168.1.10/stuff  /mnt/stuff  cifs  guest,rw,relatime,vers=3.0,cache=strict,uid=1000,noforceuid,gid=1000,noforcegid,addr=192.168.1.10,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1 0 0"  >> /etc/fstab
-echo "//192.168.1.10/movie_tv  /mnt/mov_tv  cifs  guest,rw,relatime,vers=3.0,cache=strict,uid=1000,noforceuid,gid=1000,noforcegid,addr=192.168.1.10,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1  0 0"  >> /etc/fstab
+#apt install cifs-utils
+#mkdir /mnt/stuff /mnt/mov_tv
+#echo "//192.168.1.10/stuff  /mnt/stuff  cifs  guest,rw,relatime,vers=3.0,cache=strict,uid=1000,noforceuid,gid=1000,noforcegid,addr=192.168.1.10,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1 0 0"  >> /etc/fstab
+#echo "//192.168.1.10/movie_tv  /mnt/mov_tv  cifs  guest,rw,relatime,vers=3.0,cache=strict,uid=1000,noforceuid,gid=1000,noforcegid,addr=192.168.1.10,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1  0 0"  >> /etc/fstab
